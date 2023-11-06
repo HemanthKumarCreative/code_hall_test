@@ -2,44 +2,14 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const app = express();
 
-const sendMail = async (fromUser, toUser, subject, text, res) => {
-  try {
-    // Create a transporter using SMTP
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: fromUser,
-        pass: "vnnw lkvz kafl getn",
-      },
-    });
-
-    // Define the email content
-    const mailOptions = {
-      from: fromUser,
-      to: toUser, // Recipient's email address
-      subject,
-      text,
-    };
-
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.error("Error:", error);
-      }
-      res.status(200).json({ message: info.response });
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
 const checkMail = async (fromUser, toUser, subject, text, res) => {
   try {
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
+      type: "smtp",
       host: "localhost", // MailHog SMTP server
-      port: 8025, // Default MailHog SMTP port
+      port: 1025, // Default MailHog SMTP port
+      security: false,
     });
 
     // Define the email content
