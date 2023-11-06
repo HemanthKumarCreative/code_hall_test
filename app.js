@@ -1,6 +1,7 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const app = express();
+const cors = require("cors"); // Import the cors module
 
 const checkMail = async (fromUser, toUser, subject, text, res) => {
   try {
@@ -26,7 +27,7 @@ const checkMail = async (fromUser, toUser, subject, text, res) => {
       if (error) {
         return console.error("Error:", error);
       }
-      res.status(200).json({ message: info.response });
+      res.status(201).json({ message: info.response });
     });
   } catch (error) {
     console.error(error);
@@ -34,6 +35,7 @@ const checkMail = async (fromUser, toUser, subject, text, res) => {
   }
 };
 
+app.use(cors());
 app.use(express.json());
 
 app.post("/send-email", (req, res) => {
